@@ -1,0 +1,124 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>HTTP-FLV 播放示例</title>
+    <!-- 引入 flv.js -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/flv.js/1.6.2/flv.min.js"></script>
+</head>
+<body>
+    <!-- 视频播放器容器 -->
+    <video id="videoElement" controls muted autoplay style="width: 100%; height: auto;"></video>
+    <!-- 曝光控制 -->
+    <div style="margin-top: 20px;">
+        <label>
+            <input type="checkbox" id="autoExposureCheckbox"> 自动曝光
+        </label>
+    </div>
+
+    <div id="exposureSliderContainer" style="margin-top: 10px;">
+        <label for="exposureRange">曝光值:</label>
+        <input type="range" id="exposureRange" min="0" max="100" value="50">
+        <span id="exposureValueDisplay">50</span>
+    </div>
+
+    <script>
+        // 检查浏览器是否支持 flv.js
+        if (flvjs.isSupported()) {
+        fetch('/video/api/stream-url/')
+            .then(response => response.json())
+            .then(data => {
+                const videoElement = document.getElementById('videoElement');
+                const flvPlayer = flvjs.createPlayer({
+                    type: 'flv',
+                    url: data.stream_url,
+                    config: {
+                        enableWorker: true,
+                        enableStashBuffer: false,
+                        stashInitialSize: 128,
+                        lazyLoad: true,
+                        autoCleanupSourceBuffer: true
+                    }
+                });
+                flvPlayer.attachMediaElement(videoElement);
+                flvPlayer.load();
+                flvPlayer.play();
+            })
+            .catch(err => {
+                console.error("无法获取流地址:", err);
+            });
+    } else {
+        alert("当前浏览器不支持 flv.js，请使用 Chrome/Firefox/Edge 等现代浏览器。");
+    }
+
+        // 曝光控制组件
+        document.addEventListener("DOMContentLoaded", function () {
+                const autoExposureCheckbox = document.getElementById('autoExposureCheckbox');
+                const exposureSliderContainer = document.getElementById('exposureSliderContainer');
+                const exposureRange = document.getElementById('exposureRange');
+                const exposureValueDisplay = document.getElementById('exposureValueDisplay');
+
+                // 从服务器加载当前配置
+                fetch('/video/api/camera_config/')
+                    .then(response => response.json())
+                    .then(data => {
+                        autoExposureCheckbox.checked = data.auto_exposure;
+                        exposureRange.value = data.exposure_value;
+                        exposureValueDisplay.textContent = data.exposure_value;
+
+                        // 初始化时根据 checkbox 状态设置 slider 显示状态
+                        exposureSliderContainer.style.display = data.auto_exposure ? "none" : "block";
+                    });
+
+                // 监听 checkbox 变化
+                autoExposureCheckbox.addEventListener('change', function () {
+                    const isAuto = this.checked;
+                    exposureSliderContainer.style.display = isAuto ? "none" : "block";
+
+                    sendUpdateToBackend();
+                });
+
+                // 监听 slider 变化
+                exposureRange.addEventListener('input', function () {
+                    exposureValueDisplay.textContent = this.value;
+                    sendUpdateToBackend();
+                });
+
+                // 发送更新到后端
+                function sendUpdateToBackend() {
+                    const payload = {
+                        auto_exposure: autoExposureCheckbox.checked,
+                        exposure_value: parseInt(exposureRange.value)
+                    };
+
+                    fetch('/video/api/update_camera_config/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken')
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                }
+
+                // 获取 CSRF token 辅助函数
+                function getCookie(name) {
+                    let cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        const cookies = document.cookie.split(';');
+                        for (let i = 0; i < cookies.length; i++) {
+                            const cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                    return cookieValue;
+                }
+            });
+    </script>
+</body>
+{% endblock %}

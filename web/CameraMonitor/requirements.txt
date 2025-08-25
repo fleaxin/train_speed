@@ -1,0 +1,4 @@
+Django==4.2.21
+django-simpleui==2025.1.13
+django-solo==2.3.0
+requests==2.32.4

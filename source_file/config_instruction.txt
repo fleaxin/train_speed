@@ -1,0 +1,27 @@
+local_frame_test：                      0：使用摄像头 1：使用本地yuv格式图片（暂不使用） 2：使用本地h264视频裸流
+local_frame_path：                      local_frame_test为1时，图片路径
+local_video_path：                      local_frame_test为2时，视频路径
+start_frame：                           暂未使用
+push_video：                            0：不推流 1：推流
+save_file：                             0：不保存 1：保存视频
+camera:
+    rate                                摄像头采集帧率
+    height                              摄像头采集图像高度（单位：像素）
+    width                               摄像头采集图像宽度（单位：像素）
+    offset_x                            摄像头采集图像X偏移量
+    offset_y                            摄像头采集图像Y偏移量
+    AAROI_height                        自动曝光区域高度
+    AAROI_width                         自动曝光区域宽度
+    AAROI_offsetx                       自动曝光区域X偏移量
+    AAROI_offsety                       自动曝光区域Y偏移量
+push_config:
+    push_url                            推流地址(暂未使用)
+    push_port                           推流端口
+    push_frame_rate                     推流及保存视频的帧率
+    push_height                         推流及保存视频的高度
+    push_width                          推流及保存视频的宽度
+pmf_coef                                透视矫正参数，获取方式使用tools/pmf_tool
+ldc:
+    ldc_v2_attr_class                   镜头畸变矫正参数，使用PQTool获取 {focal_len_x,focal_len_y,coord_shift_x,coord_shift_y,max_du}
+    ldc_v2_attr_src_calibration_ratio   镜头畸变矫正参数，使用PQTool获取
+    ldc_v2_attr_dst_calibration_ratio   镜头畸变矫正参数，使用PQTool获取

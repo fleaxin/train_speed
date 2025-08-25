@@ -1,0 +1,34 @@
+{
+    "local_frame_test":2,
+    "local_frame_path":"../source_file/local_frame/",
+    "local_video_path":"../source_file/7_10_count_test.h264",
+    "start_frame":1,
+    "push_video":1,
+    "save_file":0,
+    "camera": {
+        "rate": 7,
+        "height": 1200,
+        "width": 2448,
+        "offset_x": 0,
+        "offset_y": 500,
+        "exposure_time": 40000,
+        "AAROI_height": 1200,
+        "AAROI_width": 2448,
+        "AAROI_offsetx": 0,
+        "AAROI_offsety": 500
+    },
+    "push_config":{
+        "push_url": "",
+        "push_port": 8080,
+        "push_frame_rate": 7,
+        "push_frame_height": 1200,
+        "push_frame_width": 2448
+    },
+    "pmf_coef": [514030, 45906, -3041443, -11885, 536507, 25858042, -5, 19, 524288],
+    "ldc":{
+        "ldc_v2_attr_class": [240880, 240731, 120874, 54985, 39024],
+        "ldc_v2_attr_src_calibration_ratio": [100000,-10097,23683,-42847,0,0,0,0,3200000],
+        "ldc_v2_attr_dst_calibration_ratio": [0,0,0,0,100000,0,0,0,100000,0,0,0,0,25838]
+    }
+    
+}

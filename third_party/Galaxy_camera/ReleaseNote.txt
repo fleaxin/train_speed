@@ -1,0 +1,41 @@
+******************************************************
+RELEASE DATE:2023-03-20
+VERSION:1.5.2303.9202
+******************************************************
+
+NEW FEATURES / CHANGES
+=========================
+<SDK> GxIAPI Library: add function code
+<SDK> DxImageProc Library: add DxReadLutFile interface
+<SDK> GxU3VTL: Fixed a color correction crash on Gige cameras using the image processing library
+
+CORRECTIONS
+=========================
+
+
+******************************************************
+RELEASE DATE:2022-08-08
+VERSION:1.4.2208.9081
+******************************************************
+
+NEW FEATURES / CHANGES
+=========================
+<SDK> GxIAPI Library: add "Contrast"function code
+<SDK> GxIAPI Library: Fix compilation error in pure C language environment
+
+CORRECTIONS
+=========================
+
+
+******************************************************
+RELEASE DATE:2022-06-14
+VERSION:1.3.2206.9141
+******************************************************
+
+NEW FEATURES / CHANGES
+=========================
+<SDK> GxIAPI Library: add "StaticDefectCorrectionValueAll","StaticDefectCorrectionFlashValue","StaticDefectCorrectionFinish","StaticDefectCorrectionInfo","SensorDecimationHorizontal", "SensorDecimationVertical", "StripedCalibrationInfo"function code
+
+CORRECTIONS
+=========================
+<SDK> Gigabit Network Camera TL Library: solve the problem that the user-defined name cannot be written in Chinese
